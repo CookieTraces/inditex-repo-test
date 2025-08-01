@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.4</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 
 	<groupId>jose.zajara</groupId>
@@ -56,6 +56,18 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.pitest</groupId>
+			<artifactId>pitest-junit5-plugin</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -63,27 +75,21 @@
 			<plugin>
 				<groupId>org.pitest</groupId>
 				<artifactId>pitest-maven</artifactId>
-				<version>1.15.8</version>
+				<version>1.17.4</version>
+				<configuration>
+					<jvmArgs>
+						<jvmArg>-Djunit.jupiter.extensions.autodetection.enabled=false</jvmArg>
+					</jvmArgs>
+				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.pitest</groupId>
 						<artifactId>pitest-junit5-plugin</artifactId>
-						<version>1.2.1</version>
+						<version>1.2.3</version>
 					</dependency>
 				</dependencies>
-				<configuration>
-					<targetClasses>
-						<param>jose.zajara.inditex.**</param>
-					</targetClasses>
-					<targetTests>
-						<param>jose.zajara.inditex.**</param>
-					</targetTests>
-					<outputFormats>
-						<outputFormat>HTML</outputFormat>
-					</outputFormats>
-					<timestampedReports>false</timestampedReports>
-				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
