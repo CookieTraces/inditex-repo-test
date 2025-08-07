@@ -1,4 +1,4 @@
-package jose.zajara.inditex.infrastructure.controller;
+package jose.zajara.inditex.infrastructure.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class PriceResponse {
+public class PriceResponseDto {
     private Long productId;
     private Long brandId;
     private Integer priceList;

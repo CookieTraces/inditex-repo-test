@@ -1,11 +1,13 @@
 package jose.zajara.inditex.mapper;
 
 import jose.zajara.inditex.domain.model.Price;
+import jose.zajara.inditex.infrastructure.dto.PriceResponseDto;
 import jose.zajara.inditex.infrastructure.repository.PriceEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PriceMapper {
+
     public Price toDomain(PriceEntity entity) {
         return new Price(
                 entity.getBrandId(),
@@ -16,6 +18,17 @@ public class PriceMapper {
                 entity.getPriority(),
                 entity.getPrice(),
                 entity.getCurrency()
+        );
+    }
+
+    public PriceResponseDto toResponse(Price price) {
+        return new PriceResponseDto(
+                price.getProductId(),
+                price.getBrandId(),
+                price.getPriceList(),
+                price.getStartDate(),
+                price.getEndDate(),
+                price.getPrice()
         );
     }
 }

@@ -17,7 +17,7 @@ class PriceControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void test1_pedido_14_10() throws Exception {
+    void shouldReturnBasePrice_whenMorningOn14th() throws Exception {
         mockMvc.perform(get("/api/prices")
                         .param("productId", "35455")
                         .param("brandId", "1")
@@ -28,7 +28,7 @@ class PriceControllerTest {
     }
 
     @Test
-    void test2_pedido_14_16() throws Exception {
+    void shouldReturnPromoPrice_whenAfternoonOn14th() throws Exception {
         mockMvc.perform(get("/api/prices")
                         .param("productId", "35455")
                         .param("brandId", "1")
@@ -39,7 +39,7 @@ class PriceControllerTest {
     }
 
     @Test
-    void test3_pedido_14_21() throws Exception {
+    void shouldReturnBasePrice_whenNightOn14th() throws Exception {
         mockMvc.perform(get("/api/prices")
                         .param("productId", "35455")
                         .param("brandId", "1")
@@ -50,7 +50,7 @@ class PriceControllerTest {
     }
 
     @Test
-    void test4_pedido_15_10() throws Exception {
+    void shouldReturnMidPromoPrice_whenMorningOn15th() throws Exception {
         mockMvc.perform(get("/api/prices")
                         .param("productId", "35455")
                         .param("brandId", "1")
@@ -61,7 +61,7 @@ class PriceControllerTest {
     }
 
     @Test
-    void test5_pedido_16_21() throws Exception {
+    void shouldReturnLastPrice_whenNightOn16th() throws Exception {
         mockMvc.perform(get("/api/prices")
                         .param("productId", "35455")
                         .param("brandId", "1")
@@ -69,5 +69,23 @@ class PriceControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.priceList").value(4))
                 .andExpect(jsonPath("$.price").value(38.95));
+    }
+
+    @Test
+    void shouldReturn404_whenNoApplicablePriceFound() throws Exception {
+        mockMvc.perform(get("/api/prices")
+                        .param("productId", "99999")  // Producto inexistente
+                        .param("brandId", "1")
+                        .param("applicationDate", "2025-01-01T10:00:00"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturn400_whenMissingRequiredParameter() throws Exception {
+        mockMvc.perform(get("/api/prices")
+                        .param("productId", "35455")
+                        // Falta brandId
+                        .param("applicationDate", "2020-06-14T10:00:00"))
+                .andExpect(status().isBadRequest());
     }
 }

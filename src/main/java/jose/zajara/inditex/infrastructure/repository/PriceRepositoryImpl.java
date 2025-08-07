@@ -1,7 +1,9 @@
-package jose.zajara.inditex.infrastructure.repository;
+package jose.zajara.inditex.infrastructure.adapter;
 
 import jose.zajara.inditex.application.port.PriceRepository;
 import jose.zajara.inditex.domain.model.Price;
+import jose.zajara.inditex.infrastructure.repository.JpaPriceRepository;
+import jose.zajara.inditex.infrastructure.repository.PriceEntity;
 import jose.zajara.inditex.mapper.PriceMapper;
 import org.springframework.stereotype.Repository;
 
@@ -22,9 +24,8 @@ public class PriceRepositoryImpl implements PriceRepository {
 
     @Override
     public List<Price> findByProductIdAndBrandIdAndDate(Long productId, Long brandId, LocalDateTime date) {
-        return jpaPriceRepository
-                .findByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfter(productId, brandId, date, date)
-                .stream()
+        List<PriceEntity> entities = jpaPriceRepository.findValidPrices(productId, brandId, date);
+        return entities.stream()
                 .map(priceMapper::toDomain)
                 .collect(Collectors.toList());
     }
