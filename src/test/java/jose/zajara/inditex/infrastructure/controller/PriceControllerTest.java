@@ -74,7 +74,7 @@ class PriceControllerTest {
     @Test
     void shouldReturn404_whenNoApplicablePriceFound() throws Exception {
         mockMvc.perform(get("/api/prices")
-                        .param("productId", "99999")  // Producto inexistente
+                        .param("productId", "99999")
                         .param("brandId", "1")
                         .param("applicationDate", "2025-01-01T10:00:00"))
                 .andExpect(status().isNotFound());
@@ -84,7 +84,6 @@ class PriceControllerTest {
     void shouldReturn400_whenMissingRequiredParameter() throws Exception {
         mockMvc.perform(get("/api/prices")
                         .param("productId", "35455")
-                        // Falta brandId
                         .param("applicationDate", "2020-06-14T10:00:00"))
                 .andExpect(status().isBadRequest());
     }
